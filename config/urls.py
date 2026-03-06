@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from authentication import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('connexion/', authentication.forms)
+    path('inscription/', views.SigninView.as_view(), name="sign-in")
 ]
