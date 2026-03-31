@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication',
+    'social_network',
 ]
 
 MIDDLEWARE = [
@@ -117,8 +119,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-LOGOUT_REDIRECT_URL = 'sign-in'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = reverse_lazy('login')
+LOGOUT_REDIRECT_URL = LOGIN_URL
+LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 
 AUTH_USER_MODEL = 'authentication.User'

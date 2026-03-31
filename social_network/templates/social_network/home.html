@@ -4,6 +4,7 @@
 
 {% block main %}
     <h1>Bienvenue sur LitReview !</h1>
+    {{ request.user }}
 
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
