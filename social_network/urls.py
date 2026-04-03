@@ -1,6 +1,6 @@
 from django.urls import path
-from social_network.views import HomeView
+from social_network.views import FeedView
 
 urlpatterns = [
-    path('home/', HomeView.as_view(), name="home"),
+    path('feed/', FeedView.as_view(), name="feed"),
 ]

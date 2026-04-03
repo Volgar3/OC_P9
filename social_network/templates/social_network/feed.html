@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block main %}
+<div class="p-5">
+    <header class="d-flex justify-content-end">
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn p-0 border-0 bg-transparent text-danger">
+            <i class="bi bi-power" style="font-size: 24px;"></i>
+        </button>
+    </form>
+    </header>
+    <h1>Bienvenue sur LitReview !</h1>
+    Bonjour <b>{{ request.user }}</b>
+    {{ posts.len }}
+
+    {% for post in posts %}
+        {% if post.content_type == 'TICKET' %}
+            {% include 'social_network/snippets/ticket_snippet.html' with ticket=post %}
+        {% elif post.content_type == 'REVIEW' %}
+            {% include 'social_network/snippets/review_snippet.html' with review=post %}
+        {% endif %}
+    {% endfor %}
+
+
+</div>
+
+    
+
+{% endblock %}

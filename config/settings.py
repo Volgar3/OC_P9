@@ -122,7 +122,7 @@ STATIC_URL = 'static/'
 
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_REDIRECT_URL = LOGIN_URL
-LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGIN_REDIRECT_URL = reverse_lazy('feed')
 
 
 AUTH_USER_MODEL = 'authentication.User'

@@ -8,4 +8,4 @@ class SigninView(CreateView):
     form_class = SignupForm
     template_name = "authentication/sign-in.html"
     
-    success_url = reverse_lazy('home') # a changer aussi du coup
+    success_url = reverse_lazy('feed') # a changer aussi du coup
