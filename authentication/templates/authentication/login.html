@@ -1,10 +1,27 @@
 {% extends "authentication/base.html" %}
 
-{% block main %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Se connecter</button>
-</form>
-<a href="{% url 'sign-in' %}">Pas encore de compte ? Inscris-toi ici</a>
+{% block content %}
+<div class="row align-items-center mt-4">
+    
+    <div class="col-md-6 text-center border-end border-dark">
+        <h2 class="h4 mb-4">Inscrivez-vous maintenant</h2>
+        <a href="{% url 'sign-in' %}" class="btn btn-outline-success px-3">S'inscrire</a>
+    </div>
+    <div class="col-md-6 ps-md-5">
+        <h2 class="h4 text-center mb-4">Connectez-vous</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" name="pseudo" class="form-control border-dark" placeholder="Nom d'utilisateur">
+            </div>
+            <div class="mb-3">
+                <input type="password" name="mot de passe" class="form-control border-dark" placeholder="Mot de passe">
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-outline-success px-4">Se connecter</button>
+            </div>
+        </form>
+    </div>
+
+</div>
 {% endblock %}

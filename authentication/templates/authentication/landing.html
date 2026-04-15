@@ -1,0 +1,23 @@
+{% extends "authentication/base.html" %}
+
+{% block content %}
+<div class="text-center mt-5">
+
+    <h2 class="mb-5">Bienvenue sur LITReview</h2>
+
+    <div class="d-flex justify-content-center gap-4">
+        
+        <!-- Bouton connexion -->
+        <a href="{% url 'login' %}" class="btn btn-outline-dark px-4">
+            Se connecter
+        </a>
+
+        <!-- Bouton inscription -->
+        <a href="{% url 'sign-in' %}" class="btn btn-dark px-4">
+            Créer un compte
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -126,3 +126,9 @@ LOGIN_REDIRECT_URL = reverse_lazy('feed')
 
 
 AUTH_USER_MODEL = 'authentication.User'
+
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static", 
+]
