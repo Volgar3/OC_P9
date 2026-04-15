@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'authentication',
     'social_network',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [

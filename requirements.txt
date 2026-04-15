@@ -1,5 +1,6 @@
 asgiref==3.11.1
 Django==6.0.3
+django-bootstrap5==26.2
 django-extensions==4.1
 MarkupSafe==3.0.3
 pillow==12.2.0
