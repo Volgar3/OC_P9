@@ -1,19 +1,29 @@
 {% extends "authentication/base.html" %}
-
+{% load django_bootstrap5 %}
+{% load static %}
 {% block content %}
-    <h2 class="mb-4 text-center">Créer un compte</h2>
+
+    <div class="row align-items-center mb-4">
+        <div class="col-4">
+            <a href="{% url 'login' %}" class="btn btn-hover px-5 border-light">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+        </div>
+        <div class="col-4 text-center">
+            <h2 class="mb-0">Créer un compte</h2>
+        </div>
+        <div class="col-4"></div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <form method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {%bootstrap_form form%}
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-outline-dark">Valider l'inscription</button>
+                    <button type="submit" class="btn btn-outline-success">Valider l'inscription</button>
                 </div>
             </form>
-            <div class="text-center mt-3">
-                <a href="{% url 'login' %}" class="text-dark">Déjà un compte ? Se connecter</a>
-            </div>
         </div>
     </div>
+    
 {% endblock %}

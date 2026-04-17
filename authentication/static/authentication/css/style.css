@@ -1,7 +1,14 @@
-main {
-    border: 2px solid #333;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 1200px;
+.btn-hover {
+    background: linear-gradient(to left, #ccaf8862 50%, white 50%);
+    background-size: 200% 100%;
+    background-position: left;
+    border-color: #ccaf8862 !important;
+    transition: background-position 0.5s;
+    color: #212529;
+}
+
+.btn-hover:hover {
+    background-position: right;
+    border-color: #ccaf8862;
+    color: black;
 }
