@@ -2,7 +2,7 @@
     background: linear-gradient(to left, #ccaf8862 50%, white 50%);
     background-size: 200% 100%;
     background-position: left;
-    border-color: #ccaf8862 !important;
+    border-color: #ccaf8862;
     transition: background-position 0.5s;
     color: #212529;
 }
@@ -11,4 +11,8 @@
     background-position: right;
     border-color: #ccaf8862;
     color: black;
+}
+
+.text-inscription {
+    white-space: nowrap;
 }
