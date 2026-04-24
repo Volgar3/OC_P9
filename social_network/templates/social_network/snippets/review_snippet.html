@@ -1,1 +1,23 @@
-{{ post }}
+<div class="card text-dark bg-light w-75">
+    <div class="card-body">
+        <div class="mb-1">
+            
+            <!-- Handling txt -->
+            <span>Vous avez publié une critique</span> 
+            
+            <!-- Date -->
+            <small class="d-block text-end fs-sm">{{ review.time_created|date:"H:i, j N Y" }}</small>
+        </div>
+        
+        <!-- Description and rating -->
+        <p class="mb-2">
+            <span class="h5">{{ review.headline }}</span>  -
+            {% for i in "01234"|make_list %}{% if forloop.counter0 < review.rating %}★{% else %}☆{% endif %}{% endfor %}
+            <div>{{ review.description }}</div>
+        </p>
+        
+        {% include "social_network/snippets/ticket_snippet.html" with ticket=review.ticket has_review=True %}
+            
+
+    </div>
+</div>
