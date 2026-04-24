@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <header class="d-flex justify-content-between align-items-center border-bottom">
+    <header class="d-flex justify-content-between align-items-center border-bottom border-dark">
         <div style="width: 265px;"></div>
         <h1 class="p-2">LitReview</h1>
         <nav>
-            <a class="p-2">Flux</a>
-            <a class="p-2">Posts</a>
-            <a class="p-2">Abonnements</a>
+            <a href="{% url 'login' %}" class="btn btn-hover">Flux</a>
+            <a href="{% url 'login' %}" class="btn btn-hover">Post</a>
+            <a href="{% url 'login' %}" class="btn btn-hover">Abonnements</a>
             <form class="logout-form p-2" method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn p-0 border-0 bg-transparent text-danger">
@@ -16,7 +16,9 @@
             </form>
         </nav>
     </header>
-    <main class="main">
+    <main class="main py-5">
+        <a class="border border-dark btn-critique">Demander une critique</a>
+        <a class="border border-dark btn-critique">Faire une critique</a>
         {% block main %}
         {% endblock %}
     </main>

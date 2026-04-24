@@ -1,1 +1,48 @@
-{{ticket}}
+<div class="border border-dark p-3 mb-3 rounded-2">
+    <div class="mb-1">
+
+        <!-- Handling txt -->
+        <span>
+            {% if ticket.user == request.user %}
+                Vous avez demandé une critique
+            {% else %}
+                {{ ticket.user.username }} a demandé une critique
+            {% endif %}
+        </span>
+
+        <!-- Date -->
+        <small class="d-block text-end">{{ ticket.time_created|date:"H:i, j N Y" }}</small>
+    </div>
+
+    <!-- Description and rating -->
+    {% if ticket.description %}
+        <p class="mb-2">
+            Avis : {{ ticket.description }}  -
+            <!-- A comprendre -->
+            {% with ticket.review_set.first as review %}
+                {% if review %}
+                    {% for i in "01234"|make_list %}{% if forloop.counter0 < review.rating %}★{% else %}☆{% endif %}{% endfor %}
+                {% endif %}
+            {% endwith %}
+        </p>
+    {% endif %}
+        <div class=" border border-dark px-3 py-2 rounded-2">
+
+        <!-- Ticket number -->
+        <p class="mb-2">Ticket n°{{ ticket.id }}</p>
+        
+        <!-- Title -->
+        <p class="d-block mb-2">Titre : {{ ticket.title }}</p>
+
+
+        <!-- Image -->
+        {% if ticket.image %}
+            <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" class="d-block mb-2" style="max-height: 200px;">
+        {% endif %}
+        <div class="text-end mt-2">
+        {% if ticket.user != request.user %}
+                <a href="#" class="btn btn-outline-dark btn-sm">Créer une critique</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
