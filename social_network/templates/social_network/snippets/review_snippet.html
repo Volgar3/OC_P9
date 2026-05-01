@@ -1,4 +1,4 @@
-<div class="card text-dark bg-light w-75">
+<div class="card text-dark bg-light w-75 m-2">
     <div class="card-body">
         <div class="mb-1">
             
@@ -17,7 +17,15 @@
         </p>
         
         {% include "social_network/snippets/ticket_snippet.html" with ticket=review.ticket has_review=True %}
-            
+        
+        {% url "feed" as feed_url %}
+        {% if request.path == feed_url %}
+            <div class="d-flex flex-row-reverse">
+                {# On reverse l'ordre pour le flex-row-reverse #}
+                <button class="btn btn-outline-dark mx-2">Supprimer</button>
+                <button class="btn btn-outline-dark mx-2">Modifier</button>
+            </div>
+        {% endif %}
 
     </div>
 </div>
