@@ -1,7 +1,8 @@
-<div class="card text-dark bg-light {% if request.path == feed_url %}w-75{% endif %} m-2">
+{% load social_network_extras %}
+<div class="card text-dark bg-light w-75 m-2">
     <div class="card-body">
         {% if not has_review %}
-            <p>Vous avez publié un ticket</p>
+            <span>{% if ticket.user == request.user %}Vous avez{% else %}{{ ticket.user }} a{% endif %} demandé une critique</span>
         {% endif %}
         <!-- Ticket number -->
         <p class="mb-2">Ticket - {{ ticket.user }}</p>
@@ -12,17 +13,26 @@
 
         <!-- Title -->
         <p class="d-block mb-2">Titre : {{ ticket.title }}</p>
-        
-        
+
         <!-- Image -->
         {% if ticket.image %}
         <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" class="d-block mb-2" style="max-height: 200px;">
         {% endif %}
-    
-        {% comment %} <div class="text-end mt-2">
-        {% if ticket.user != request.user %}
-        <a href="#" class="btn btn-outline-dark btn-sm">Créer une critique</a>
+
+        <!-- Buttons logic-->
+        {% if ticket.user == request.user and not has_review %}
+            <div class="d-flex flex-row-reverse mt-2">
+                <button class="btn btn-outline-dark mx-2">Supprimer</button>
+                <button class="btn btn-outline-dark mx-2">Modifier</button>
+            </div>
+
+        {% elif ticket.user != request.user and not has_review %}
+            {% has_reviewed request.user ticket as already_reviewed %}
+            {% if not already_reviewed %}
+                <div class="d-flex flex-row-reverse mt-2">
+                    <a href="{% url 'create_ticket' %}" class="btn btn-outline-dark mx-2">Demander une critique</a>
+                </div>
+            {% endif %}
         {% endif %}
-        </div> {% endcomment %}
     </div>
 </div>

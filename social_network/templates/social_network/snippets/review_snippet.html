@@ -3,7 +3,7 @@
         <div class="mb-1">
             
             <!-- Handling txt -->
-            <span>Vous avez publié une critique</span> 
+            <span>{% if review.user == request.user %}Vous avez{% else %}{{ review.user }} a{% endif %} publié une critique</span>
             
             <!-- Date -->
             <small class="d-block text-end fs-sm">{{ review.time_created|date:"H:i, j N Y" }}</small>
@@ -17,15 +17,5 @@
         </p>
         
         {% include "social_network/snippets/ticket_snippet.html" with ticket=review.ticket has_review=True %}
-        
-        {% url "feed" as feed_url %}
-        {% if request.path == feed_url %}
-            <div class="d-flex flex-row-reverse">
-                {# On reverse l'ordre pour le flex-row-reverse #}
-                <button class="btn btn-outline-dark mx-2">Supprimer</button>
-                <button class="btn btn-outline-dark mx-2">Modifier</button>
-            </div>
-        {% endif %}
-
     </div>
 </div>

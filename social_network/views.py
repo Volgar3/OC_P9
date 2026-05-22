@@ -3,18 +3,40 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.db.models import CharField, Value
 from social_network.models import Ticket, Review
+from social_network.forms import ReviewForm, TicketForm
+from django.shortcuts import render, redirect
 
 # Create your views here.
 class FeedView(LoginRequiredMixin, TemplateView):
     template_name = "social_network/feed.html"
 
     def get_users_viewable_reviews(self):
+        """
+        Retourne toutes les reviews visibles par l'utilisateur connecté :
+        - ses propres reviews
+        - les reviews des utilisateurs qu'il suit
+        - les reviews en réponse à ses propres tickets (même si l'auteur n'est pas suivi)
+        """
         current_user = self.request.user
-        return Review.objects.filter(user=current_user)
+        followed_users = current_user.following_users.values_list('followed_user', flat=True)
+        return (
+            Review.objects.filter(user=current_user) |
+            Review.objects.filter(user__in=followed_users) |
+            Review.objects.filter(ticket__user=current_user)
+        ).distinct()
 
     def get_users_viewable_tickets(self):
+        """
+        Retourne tous les tickets visibles par l'utilisateur connecté :
+        - ses propres tickets
+        - les tickets des utilisateurs qu'il suit
+        """
         current_user = self.request.user
-        return Ticket.objects.filter(user=current_user)
+        followed_users = current_user.following_users.values_list('followed_user', flat=True)
+        return (
+            Ticket.objects.filter(user=current_user) |
+            Ticket.objects.filter(user__in=followed_users)
+        ).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,3 +54,16 @@ class FeedView(LoginRequiredMixin, TemplateView):
         )
         context["posts"] = posts
         return context
+
+# Demander une critique
+def create_ticket(request):
+    if request.method == 'POST':
+        form = TicketForm(request.POST, request.FILES)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            return redirect('feed')
+    else:
+        form = TicketForm()
+    return render(request, 'social_network/create_ticket.html', {'form': form})
