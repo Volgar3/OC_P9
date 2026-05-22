@@ -1,10 +1,14 @@
 from itertools import chain
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 from django.db.models import CharField, Value
-from social_network.models import Ticket, Review
-from social_network.forms import ReviewForm, TicketForm
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+
+
+from social_network.models import Ticket, Review
+from social_network.forms import TicketForm
 
 # Create your views here.
 class FeedView(LoginRequiredMixin, TemplateView):
@@ -67,3 +71,15 @@ def create_ticket(request):
     else:
         form = TicketForm()
     return render(request, 'social_network/create_ticket.html', {'form': form})
+
+class TicketCreateView(LoginRequiredMixin, CreateView):
+    model = Ticket
+    fields = ('title', 'description', 'image')
+    success_url = reverse_lazy('feed')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+    
