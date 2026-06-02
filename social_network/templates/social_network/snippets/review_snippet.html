@@ -15,6 +15,14 @@
             {% for i in "01234"|make_list %}{% if forloop.counter0 < review.rating %}★{% else %}☆{% endif %}{% endfor %}
             <div>{{ review.description }}</div>
         </p>
+
+        <!-- Buttons logic-->
+        {% if review.user == request.user and not has_review %}
+            <div class="d-flex flex-row-reverse mt-2">
+                <a href="{% url 'delete_review' ticket.id %}" class="btn btn-outline-dark mx-2">Supprimer</a>
+                <a href="{% url 'update_review' ticket.id %}" class="btn btn-outline-dark mx-2">Modifier</a>
+            </div>
+        {% endif %}
         
         {% include "social_network/snippets/ticket_snippet.html" with ticket=review.ticket has_review=True %}
     </div>

@@ -1,0 +1,14 @@
+{% extends "social_network/base.html" %}
+
+{% block main %}
+<h1>Supprimer le ticket</h1>
+
+<p>Êtes-vous sûr de vouloir supprimer "{{ object.title }}" ?</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <a href="{% url 'feed' %}" class="btn btn-secondary">Annuler</a>
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+</form>
+
+{% endblock %}

@@ -22,15 +22,15 @@
         <!-- Buttons logic-->
         {% if ticket.user == request.user and not has_review %}
             <div class="d-flex flex-row-reverse mt-2">
-                <button class="btn btn-outline-dark mx-2">Supprimer</button>
-                <button class="btn btn-outline-dark mx-2">Modifier</button>
+                <a href="{% url 'delete_ticket' ticket.id %}" class="btn btn-outline-dark mx-2">Supprimer</a>
+                <a href="{% url 'update_ticket' ticket.id %}" class="btn btn-outline-dark mx-2">Modifier</a>
             </div>
 
         {% elif ticket.user != request.user and not has_review %}
             {% has_reviewed request.user ticket as already_reviewed %}
             {% if not already_reviewed %}
                 <div class="d-flex flex-row-reverse mt-2">
-                    <a href="{% url 'create_ticket' %}" class="btn btn-outline-dark mx-2">Demander une critique</a>
+                    <a href="{% url 'create_review' ticket.id %}" class="btn btn-outline-dark mx-2">Créer une critique</a>
                 </div>
             {% endif %}
         {% endif %}

@@ -1,0 +1,15 @@
+{% extends "social_network/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block main %}
+<h1>Créer une critique</h1>
+
+{% include "social_network/snippets/ticket_snippet.html" with ticket=ticket has_review=True %}
+
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+
+{% endblock %}
