@@ -9,6 +9,7 @@ from social_network.views import (
     ReviewUpdateView,
     TicketDeleteView,
     ReviewDeleteView,
+    FollowersView
 )
 
 # A titre perso :
@@ -27,5 +28,7 @@ urlpatterns = [
     path('delete-ticket/<int:pk>/', TicketDeleteView.as_view(), name="delete_ticket"),
     path('update-review/<int:pk>/', ReviewUpdateView.as_view(), name="update_review"),
     path('delete-review/<int:pk>/', ReviewDeleteView.as_view(), name="delete_review"),
+    path('followers',FollowersView.as_view(), name="followers"),
+    
 
 ]

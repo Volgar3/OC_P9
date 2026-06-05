@@ -1,0 +1,60 @@
+{% extends "social_network/base.html" %}
+
+{% block title %}Abonnements{% endblock %}
+
+{% block main %}
+
+<!-- form for new follow -->
+
+<h2 class="d-flex justify-content-center mb-3">Suivre d'autres utilisateurs</h2>
+<div class="d-flex justify-content-center mb-5">
+    <form method="POST" class="d-flex gap-2 w-75">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="follow">
+        <input type="text" name="username" class="form-control text-center border-black rounded-0" placeholder="Nom d'utilisateur">
+        <button type="submit" class="btn btn-outline-dark px-4">Suivre</button>
+    </form>
+</div>
+
+<!-- user followed -->
+<h3 class="d-flex justify-content-center mb-3">Abonnements</h3>
+{% if following %}
+<div class="d-flex justify-content-center">
+    <table class="table table-bordered border-dark w-75">
+        {% for follow in following %}
+        <tr>
+            <td>{{ follow.followed_user.username }}</td>
+            <td class="text-end" style="width: 1%">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="unfollow">
+                    <input type="hidden" name="user_id" value="{{ follow.followed_user.id }}">
+                    <button type="submit" class="btn btn-sm p-0">Désabonner</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% else %}
+    <p class="text-muted">Vous ne suivez personne.</p>
+{% endif %}
+
+<!-- followers list -->
+ 
+<h3 class="d-flex justify-content-center mt-5 mb-3">Abonnés</h3>
+{% if followers %}
+<div class="d-flex justify-content-center">
+    <table class="table table-bordered border-dark w-75">
+        {% for follow in followers %}
+        <tr>
+            <td>{{ follow.user.username }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% else %}
+    <p class="text-muted">Personne ne vous suit.</p>
+{% endif %}
+
+{% endblock %}

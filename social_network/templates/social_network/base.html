@@ -10,7 +10,7 @@
             <nav class="d-flex align-items-center">
                 <a href="{% url "feed" %}" class="btn btn-hover">Flux</a>
                 <a href="{% url "home" %}" class="btn btn-hover">Posts</a>
-                <a href="" class="btn btn-hover">Abonnements</a>
+                <a href="{% url "followers"%} " class="btn btn-hover">Abonnements</a>
                 <form class="logout-form p-2" method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn p-0 border-0 bg-transparent text-danger">

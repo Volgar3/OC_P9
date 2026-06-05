@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block main %}
-
 <div class="d-flex flex-column justify-content-center align-items-center p-2">
+    <h1 class="d-flex justify-content-center"> Vos post </h1>
     {% for post in posts %}
         {% if post.content_type == 'TICKET' %}
             {% include 'social_network/snippets/ticket_snippet.html' with ticket=post %}

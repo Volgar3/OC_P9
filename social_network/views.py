@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from social_network.forms import TicketForm, ReviewForm
-from social_network.models import Ticket, Review
+from authentication.models import User
+from social_network.models import Ticket, Review, UserFollows
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
@@ -186,3 +187,32 @@ class TicketAndReviewCreateView(LoginRequiredMixin, View):
             'ticket_form': ticket_form,
             'review_form': review_form
         })
+
+
+class FollowersView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        following = UserFollows.objects.filter(user=request.user)
+        followers = UserFollows.objects.filter(followed_user=request.user)
+        return render(request, 'social_network/followers.html', {
+            'following': following,
+            'followers': followers,
+        })
+
+    def post(self, request):
+        action = request.POST.get('action')
+
+        if action == 'follow':
+            username = request.POST.get('username')
+            try:
+                user_to_follow = User.objects.get(username=username)
+                if user_to_follow != request.user:
+                    UserFollows.objects.get_or_create(user=request.user, followed_user=user_to_follow)
+            except User.DoesNotExist:
+                pass
+
+        elif action == 'unfollow':
+            user_id = request.POST.get('user_id')
+            UserFollows.objects.filter(user=request.user, followed_user_id=user_id).delete()
+
+        return redirect('followers')
