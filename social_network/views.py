@@ -1,7 +1,9 @@
 from itertools import chain
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    TemplateView, CreateView, UpdateView, DeleteView
+)
 from django.db.models import CharField, Value
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -19,7 +21,9 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def get_users_viewable_reviews(self):
         current_user = self.request.user
-        followed_users = current_user.following_users.values_list('followed_user', flat=True)
+        followed_users = current_user.following_users.values_list(
+            'followed_user', flat=True
+        )
         return (
             Review.objects.filter(user=current_user) |
             Review.objects.filter(user__in=followed_users) |
@@ -28,7 +32,9 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def get_users_viewable_tickets(self):
         current_user = self.request.user
-        followed_users = current_user.following_users.values_list('followed_user', flat=True)
+        followed_users = current_user.following_users.values_list(
+            'followed_user', flat=True
+        )
         return (
             Ticket.objects.filter(user=current_user) |
             Ticket.objects.filter(user__in=followed_users)
@@ -48,6 +54,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context["posts"] = posts
         return context
 
+
 class FeedView(LoginRequiredMixin, TemplateView):
     template_name = "social_network/feed.html"
 
@@ -56,10 +63,12 @@ class FeedView(LoginRequiredMixin, TemplateView):
         Retourne toutes les reviews visibles par l'utilisateur connecté :
         - ses propres reviews
         - les reviews des utilisateurs qu'il suit
-        - les reviews en réponse à ses propres tickets (même si l'auteur n'est pas suivi)
+        - les reviews en réponse aux tickets de l'utilisateur
         """
         current_user = self.request.user
-        followed_users = current_user.following_users.values_list('followed_user', flat=True)
+        followed_users = current_user.following_users.values_list(
+            'followed_user', flat=True
+        )
         return (
             Review.objects.filter(user=current_user) |
             Review.objects.filter(user__in=followed_users) |
@@ -73,7 +82,9 @@ class FeedView(LoginRequiredMixin, TemplateView):
         - les tickets des utilisateurs qu'il suit
         """
         current_user = self.request.user
-        followed_users = current_user.following_users.values_list('followed_user', flat=True)
+        followed_users = current_user.following_users.values_list(
+            'followed_user', flat=True
+        )
         return (
             Ticket.objects.filter(user=current_user) |
             Ticket.objects.filter(user__in=followed_users)
@@ -93,7 +104,7 @@ class FeedView(LoginRequiredMixin, TemplateView):
         context["posts"] = posts
         return context
 
-# Btn "Demander une critique"
+
 class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
     fields = ('title', 'description', 'image')
@@ -105,39 +116,37 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
-        
+
 class TicketUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'social_network/ticket_update_form.html'
     model = Ticket
     fields = ('title', 'description', 'image')
     success_url = reverse_lazy('feed')
-    
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
 
+
 class TicketDeleteView(LoginRequiredMixin, DeleteView):
     model = Ticket
     success_url = reverse_lazy('feed')
-    
 
 
-
-# Btn on ticket user_followed
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
     form_class = ReviewForm
     success_url = reverse_lazy('feed')
-    
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.ticket = Ticket.objects.get(pk=self.kwargs['ticket_id'])
         self.object.save()
         return super().form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ticket'] = Ticket.objects.get(pk=self.kwargs['ticket_id'])
@@ -149,20 +158,21 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewForm
     success_url = reverse_lazy('feed')
-    
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
 
+
 class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     model = Review
     success_url = reverse_lazy('feed')
 
-# Btn on top of the feed "Créer une critique"
+
 class TicketAndReviewCreateView(LoginRequiredMixin, View):
-    
+
     def get(self, request):
         ticket_form = TicketForm()
         review_form = ReviewForm()
@@ -170,7 +180,7 @@ class TicketAndReviewCreateView(LoginRequiredMixin, View):
             'ticket_form': ticket_form,
             'review_form': review_form
         })
-  
+
     def post(self, request):
         ticket_form = TicketForm(request.POST, request.FILES)
         review_form = ReviewForm(request.POST)
@@ -207,12 +217,17 @@ class FollowersView(LoginRequiredMixin, View):
             try:
                 user_to_follow = User.objects.get(username=username)
                 if user_to_follow != request.user:
-                    UserFollows.objects.get_or_create(user=request.user, followed_user=user_to_follow)
+                    UserFollows.objects.get_or_create(
+                        user=request.user,
+                        followed_user=user_to_follow
+                    )
             except User.DoesNotExist:
                 pass
 
         elif action == 'unfollow':
             user_id = request.POST.get('user_id')
-            UserFollows.objects.filter(user=request.user, followed_user_id=user_id).delete()
+            UserFollows.objects.filter(
+                user=request.user, followed_user_id=user_id
+            ).delete()
 
         return redirect('followers')

@@ -8,4 +8,3 @@ urlpatterns = [
     path("auth/", include("authentication.urls")),
     path("", include("social_network.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

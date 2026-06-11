@@ -7,7 +7,13 @@ from authentication.forms import LoginForm
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="authentication/landing.html"),name="landing"),
+    path(
+        '',
+        TemplateView.as_view(
+            template_name="authentication/landing.html"
+        ),
+        name="landing"
+    ),
     path('inscription/', SigninView.as_view(), name="sign-in"),
     path('log_out/', LogoutView.as_view(), name="logout"),
     path('log_in/', LoginView.as_view(

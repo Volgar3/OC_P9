@@ -7,5 +7,5 @@ from authentication.forms import SignupForm
 class SigninView(CreateView):
     form_class = SignupForm
     template_name = "authentication/sign-in.html"
-    
+
     success_url = reverse_lazy('feed')
