@@ -1,6 +1,6 @@
-# LITRevu
+# LITReview
 
-LITRevu est une application web de réseau social dédiée aux critiques de livres et d'articles. Elle permet aux utilisateurs de demander des critiques, d'en publier, et de consulter celles des personnes qu'ils suivent.
+LITReview est une application web de réseau social dédiée aux critiques de livres et d'articles. Elle permet aux utilisateurs de demander des critiques, d'en publier, et de consulter celles des personnes qu'ils suivent.
 
 ---
 
@@ -149,3 +149,16 @@ Une fois terminé, désactiver l'environnement avec :
 ```bash
 deactivate
 ```
+
+---
+
+## Tester le site
+
+Un compte utilisateur de test est disponible pour explorer l'application :
+
+| Champ             | Valeur |
+|-------------------|--------|
+| Nom d'utilisateur | `Bob`  |
+| Mot de passe      | `Bob`  |
+
+Ce compte dispose de tickets et de critiques existants, ce qui permet de voir le fil d'actualité alimenté dès la connexion.

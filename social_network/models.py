@@ -6,7 +6,7 @@ from authentication.models import User
 class Ticket(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(blank=True, max_length=2048)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to='tickets/')
     time_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

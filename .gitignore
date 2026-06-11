@@ -9,14 +9,12 @@ __pycache__/
 *.pyo
 
 # Django
-*.sqlite3
 media/
 
 # VS Code / IDE
 .vscode/env/
 __pycache__/
 *.pyc
-*.sqlite3
 
 .DS_Store
 .devcontainer
