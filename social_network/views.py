@@ -128,7 +128,7 @@ class TicketDeleteView(LoginRequiredMixin, DeleteView):
 # Btn on ticket user_followed
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
-    fields = ('headline', 'body', 'rating')
+    form_class = ReviewForm
     success_url = reverse_lazy('feed')
     
     def form_valid(self, form):
@@ -147,7 +147,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
 class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'social_network/review_update_form.html'
     model = Review
-    fields = ('headline', 'body', 'rating')
+    form_class = ReviewForm
     success_url = reverse_lazy('feed')
     
     def form_valid(self, form):

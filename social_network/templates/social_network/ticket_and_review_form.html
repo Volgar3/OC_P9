@@ -2,14 +2,26 @@
 {% load django_bootstrap5 %}
 
 {% block main %}
-<h1>Créer une critique</h1>
+<h1 class="text-center">Créer une critique</h1>
 
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <h2>Livre / Article</h2>
     {% bootstrap_form ticket_form %}
     <h2>Critique</h2>
-    {% bootstrap_form review_form %}
+    {% bootstrap_field review_form.headline %}
+    <div class="mb-3">
+        <label class="form-label">Note</label>
+        <div class="d-flex gap-3">
+            {% for radio in review_form.rating %}
+                <div class="form-check form-check-inline">
+                    {{ radio.tag }}
+                    <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% bootstrap_field review_form.body %}
     <button type="submit" class="btn btn-primary">Envoyer</button>
 </form>
 

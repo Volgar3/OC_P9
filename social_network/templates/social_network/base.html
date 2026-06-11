@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'social_network/base.css' %}">
+{% endblock %}
 
 {% block body %}
 <div class="my-4">
@@ -10,9 +15,11 @@
             <nav class="d-flex align-items-center">
                 {% with current_url=request.path %}
                     {% url "feed" as url_feed %}
-                    <a href="{{ url_feed }}" class="btn btn-hover {% if current_url == url_feed %}bg-dark text-white{% endif %}">Flux</a>
-                    <a href="{% url "home" %}" class="btn btn-hover">Posts</a>
-                    <a href="{% url "followers"%} " class="btn btn-hover">Abonnements</a>
+                    {% url "home" as url_home %}
+                    {% url "followers" as url_followers %}
+                    <a href="{{ url_feed }}" class="btn btn-hover {% if current_url == url_feed %}bg-secondary text-white{% endif %}">Flux</a>
+                    <a href="{{ url_home }}" class="btn btn-hover {% if current_url == url_home %}bg-secondary text-white{% endif %}">Posts</a>
+                    <a href="{{ url_followers }}" class="btn btn-hover {% if current_url == url_followers %}bg-secondary text-white{% endif %}">Abonnements</a>
                 {% endwith %}
                 <form class="logout-form p-2" method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
