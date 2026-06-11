@@ -1,13 +1,8 @@
 {% extends "base.html" %}
-{% load static %}
-
-{% block css %}
-<link rel="stylesheet" href="{% static 'social_network/base.css' %}">
-{% endblock %}
 
 {% block body %}
-<div class="my-4">
-    <div class="border border-dark rounded-2 main-content">
+<div class="container my-4">
+    <div class="border border-dark rounded-2">
 
         <header class="d-flex justify-content-between align-items-center border-bottom border-dark px-3">
             <div style="width: 265px;"></div>
@@ -21,7 +16,7 @@
                     <a href="{{ url_home }}" class="btn btn-hover {% if current_url == url_home %}bg-secondary text-white{% endif %}">Posts</a>
                     <a href="{{ url_followers }}" class="btn btn-hover {% if current_url == url_followers %}bg-secondary text-white{% endif %}">Abonnements</a>
                 {% endwith %}
-                <form class="logout-form p-2" method="POST" action="{% url 'logout' %}">
+                <form class="d-inline p-2" method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn p-0 border-0 bg-transparent text-danger">
                         <i class="bi bi-power" style="font-size: 24px;"></i>
