@@ -40,7 +40,6 @@ python3 --version
 
 ```bash
 git clone https://github.com/Volgar3/OC_P9.git
-cd <nom-du-dossier>
 ```
 
 ### 2. Créer et activer un environnement virtuel
@@ -61,13 +60,19 @@ env\Scripts\Activate.ps1
 
 > Une fois activé, le nom de l'environnement `(env)` apparaît au début de la ligne de commande.
 
-### 3. Installer les dépendances
+### 3. Se placer dans le dossier du projet
+
+```bash
+cd OC_P9
+```
+
+### 4. Installer les dépendances
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Lancer le serveur de développement
+### 5. Lancer le serveur de développement
 
 ```bash
 python manage.py runserver
@@ -128,25 +133,3 @@ projet_n°9/
 | django-bootstrap5 | 26.2     | Mise en page responsive               |
 | Pillow            | 12.2.0   | Gestion des images de couverture      |
 
----
-
-## Désactiver l'environnement virtuel
-
-Une fois terminé, désactiver l'environnement avec :
-
-```bash
-deactivate
-```
-
----
-
-## Tester le site
-
-Un compte utilisateur de test est disponible pour explorer l'application :
-
-| Champ             | Valeur |
-|-------------------|--------|
-| Nom d'utilisateur | `Bob`  |
-| Mot de passe      | `Bob`  |
-
-Ce compte dispose de tickets et de critiques existants, ce qui permet de voir le fil d'actualité alimenté dès la connexion.
