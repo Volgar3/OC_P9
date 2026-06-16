@@ -64,22 +64,10 @@ env\Scripts\Activate.ps1
 ### 3. Installer les dépendances
 
 ```bash
-pip install -r litReview/requirements.txt
+pip install -r requirements.txt
 ```
 
-### 4. Se placer dans le dossier de l'application
-
-```bash
-cd litReview
-```
-
-### 5. Appliquer les migrations de la base de données
-
-```bash
-python manage.py migrate
-```
-
-### 6. Lancer le serveur de développement
+### 4. Lancer le serveur de développement
 
 ```bash
 python manage.py runserver
@@ -97,8 +85,8 @@ La base de données `db.sqlite3` fournie contient des données de test ainsi que
 |-------------------|--------------|-------------|
 | `hugo2`           | `hugo2`      | Admin       |
 | `volgar`          | `volgar`     | Utilisateur |
-| `Alice`           | `alice`      | Utilisateur |
-| `Bob`             | `bob`        | Utilisateur |
+| `Alice`           | `Alice`      | Utilisateur |
+| `Bob`             | `Bob`        | Utilisateur |
 
 > Le compte `hugo2` donne accès à l'interface d'administration Django via [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin).
 
