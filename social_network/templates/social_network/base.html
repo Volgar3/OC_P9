@@ -5,7 +5,9 @@
     <div class="border border-dark rounded-2">
 
         <header class="d-flex justify-content-between align-items-center border-bottom border-dark px-3">
-            <div style="width: 265px;"></div>
+            <div style="width: 265px;" class="d-flex align-items-center px-3">
+                <span class="fw-semibold">Bonjour {{ request.user.username }}</span>
+            </div>
             <h1 class="p-2 mb-0">LitReview</h1>
             <nav class="d-flex align-items-center">
                 {% with current_url=request.path %}
