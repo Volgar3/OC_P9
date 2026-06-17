@@ -7,6 +7,15 @@
 <!-- form for new follow -->
 
 <h2 class="d-flex justify-content-center mb-3">Suivre d'autres utilisateurs</h2>
+{% if messages %}
+<div class="d-flex justify-content-center mb-2">
+    <div class="w-75">
+        {% for message in messages %}
+        <div class="alert alert-danger py-2 mb-0">{{ message }}</div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 <div class="d-flex justify-content-center mb-5">
     <form method="POST" class="d-flex gap-2 w-75">
         {% csrf_token %}

@@ -5,6 +5,7 @@ from django.views.generic import (
     TemplateView, CreateView, UpdateView, DeleteView
 )
 from django.db.models import CharField, Value
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -222,7 +223,7 @@ class FollowersView(LoginRequiredMixin, View):
                         followed_user=user_to_follow
                     )
             except User.DoesNotExist:
-                pass
+                messages.error(request, "Cet utilisateur n'existe pas.")
 
         elif action == 'unfollow':
             user_id = request.POST.get('user_id')
