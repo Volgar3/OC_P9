@@ -29,7 +29,7 @@ LITReview est une application web de réseau social dédiée aux critiques de li
 Vérifier la version de Python installée :
 
 ```bash
-python3 --version
+python --version
 ```
 
 ---
@@ -88,12 +88,10 @@ La base de données `db.sqlite3` fournie contient des données de test ainsi que
 
 | Nom d'utilisateur | Mot de passe | Rôle        |
 |-------------------|--------------|-------------|
-| `hugo2`           | `hugo2`      | Admin       |
+| `Hugo`            | `Hugo`       | Admin       |
 | `volgar`          | `volgar`     | Utilisateur |
 | `Alice`           | `Alice`      | Utilisateur |
 | `Bob`             | `Bob`        | Utilisateur |
-
-> Le compte `hugo2` donne accès à l'interface d'administration Django via [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin).
 
 ---
 
