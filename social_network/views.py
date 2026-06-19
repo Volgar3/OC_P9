@@ -15,44 +15,21 @@ from social_network.models import Ticket, Review, UserFollows
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
-    """
-    Vue pour tous les posts des personnes suivies et les nôtres
-    """
     template_name = "social_network/home.html"
-
-    def get_users_viewable_reviews(self):
-        current_user = self.request.user
-        followed_users = current_user.following_users.values_list(
-            'followed_user', flat=True
-        )
-        return (
-            Review.objects.filter(user=current_user) |
-            Review.objects.filter(user__in=followed_users) |
-            Review.objects.filter(ticket__user=current_user)
-        ).distinct()
-
-    def get_users_viewable_tickets(self):
-        current_user = self.request.user
-        followed_users = current_user.following_users.values_list(
-            'followed_user', flat=True
-        )
-        return (
-            Ticket.objects.filter(user=current_user) |
-            Ticket.objects.filter(user__in=followed_users)
-        ).distinct()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        reviews = self.get_users_viewable_reviews()
-        reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
-        tickets = self.get_users_viewable_tickets()
-        tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
-        posts = sorted(
+        reviews = Review.objects.filter(user=self.request.user).annotate(
+            content_type=Value('REVIEW', CharField())
+        )
+        tickets = Ticket.objects.filter(user=self.request.user).annotate(
+            content_type=Value('TICKET', CharField())
+        )
+        context["posts"] = sorted(
             chain(reviews, tickets),
             key=lambda post: post.time_created,
             reverse=True
         )
-        context["posts"] = posts
         return context
 
 
@@ -124,6 +101,9 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
     fields = ('title', 'description', 'image')
     success_url = reverse_lazy('feed')
 
+    def get_queryset(self):
+        return Ticket.objects.filter(user=self.request.user)
+    
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
@@ -134,7 +114,10 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
 class TicketDeleteView(LoginRequiredMixin, DeleteView):
     model = Ticket
     success_url = reverse_lazy('feed')
-
+    
+    def get_queryset(self):
+        return Ticket.objects.filter(user=self.request.user)
+    
 
 class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
@@ -160,6 +143,9 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ReviewForm
     success_url = reverse_lazy('feed')
 
+    def get_queryset(self):
+            return Review.objects.filter(user=self.request.user)
+    
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
@@ -170,6 +156,10 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
 class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     model = Review
     success_url = reverse_lazy('feed')
+    
+    def get_queryset(self):
+        return Review.objects.filter(user=self.request.user)
+    
 
 
 class TicketAndReviewCreateView(LoginRequiredMixin, View):
@@ -218,10 +208,15 @@ class FollowersView(LoginRequiredMixin, View):
             try:
                 user_to_follow = User.objects.get(username=username)
                 if user_to_follow != request.user:
-                    UserFollows.objects.get_or_create(
+                    _, created = UserFollows.objects.get_or_create(
                         user=request.user,
                         followed_user=user_to_follow
                     )
+                    if not created:
+                        messages.info(request, "Vous suivez déjà cette personne.")
+                elif request.user == user_to_follow:
+                    messages.info(request, "Vous ne pouvez pas vous suivre vous même.")
+
             except User.DoesNotExist:
                 messages.error(request, "Cet utilisateur n'existe pas.")
 
