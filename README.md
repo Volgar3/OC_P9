@@ -31,7 +31,7 @@ Vérifier la version de Python installée :
 ```bash
 python --version
 ```
-
+Si vous n'avez pas python sur votre ordinateur, vous pouvez l'installer via Microsoft Store ou via https://www.python.org/downloads/
 ---
 
 ## Installation
